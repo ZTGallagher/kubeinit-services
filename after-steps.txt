@@ -1,0 +1,27 @@
+## Initializes the cluster, and outputs two additional commands (well, three and one)
+## Three commands to create the home directory.
+## And one to run on slave nodes to join them to the cluster.
+## More info here:
+## https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/
+
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+
+## Run now on master
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+## <RUN DYNAMIC COMMAND ON SLAVE NODES>
+## <EXAMPLE> (sudo kubeadm join 172.31.97.101:6443 --token ungb1d.5fk0wao6ut7gx5hm --discovery-token-ca-cert-hash sha256:fa70134eb0e11707ce76df0e51444f60c3e7377a802232538fa84e04162bc635)
+## </SLAVES>
+
+
+## Now run this on the master.
+## It creates the networking kubernetes uses.
+## There are alternatives to flannel like OpenVSwitch, but this is simpler and works perfectly well.
+## OpenShift uses its own software defined networking, so this is irrelevant to OpenShift.
+
+sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
