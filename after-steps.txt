@@ -1,3 +1,4 @@
+## Run kubeadm command on master
 ## Initializes the cluster, and outputs two additional commands (well, three and one)
 ## Three commands to create the home directory.
 ## And one to run on slave nodes to join them to the cluster.
@@ -7,7 +8,7 @@
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
 
-## Run now on master
+## Also run now on master
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
