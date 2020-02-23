@@ -42,7 +42,7 @@
     user:
       name: vagrant
       group: docker
-    - name: Remove swapfile from /etc/fstab
+  - name: Remove swapfile from /etc/fstab
     mount:
       name: "{{ item }}"
       fstype: swap
@@ -75,10 +75,11 @@
         - kubelet
         - kubeadm
         - kubectl
+
   - name: Configure node ip
-     lineinfile:
-       path: /etc/default/kubelet
-       line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
+    lineinfile:
+      path: /etc/default/kubelet
+      line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
 
   - name: Restart kubelet
     service:
@@ -91,8 +92,9 @@
 
   - name: Join the node to cluster
     command: sh /tmp/join-command.sh
-handlers:
-  - name: docker status
-    service: 
-      name: docker
-      state: started
+  
+  handlers:
+    - name: docker status
+      service: 
+        name: docker
+        state: started
